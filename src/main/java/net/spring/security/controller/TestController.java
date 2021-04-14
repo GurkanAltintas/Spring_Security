@@ -11,4 +11,14 @@ public class TestController {
 
         return "Welcome";
     }
+    @GetMapping("/user")
+    public String user(){
+
+        return "Welcome to user";
+    }
+    @GetMapping("/admin")
+    public String admin(){
+
+        return "Welcome to admin";
+    }
 }
