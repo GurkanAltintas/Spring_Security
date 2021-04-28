@@ -3,6 +3,7 @@ package net.spring.security.configure;
 import lombok.RequiredArgsConstructor;
 import net.spring.security.DatabasePopulator;
 import net.spring.security.service.CustomUserDetailService;
+import net.spring.security.service.CustomUserDetailsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -22,7 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Configure extends WebSecurityConfigurerAdapter {
 
-    private final CustomUserDetailService userDetailService;
+    private final CustomUserDetailsManager userDetailsManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,16 +41,13 @@ public class Configure extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().formLogin();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder1(){
-        return new BCryptPasswordEncoder();
-    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder1());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsManager);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }
 }

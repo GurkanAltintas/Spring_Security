@@ -20,7 +20,7 @@ public class DatabasePopulator {
     @Transactional
     public void populateDatabase(){
 
-        Users user=new Users(null,"bygurkan123",passwordEncoder.encode("ankara103"), Set.of());
+        Users user=new Users(null,"admin",passwordEncoder.encode("admin"), Set.of());
         userRepository.save(user);
     }
 }
